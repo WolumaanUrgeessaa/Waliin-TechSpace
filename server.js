@@ -1,20 +1,22 @@
-import express from 'express';
-import path from 'path';
+import express from "express";
+import cors from "cors";
 
 const app = express();
-const port = 3000;
+app.use(express.json());
+app.use(cors());
 
-// Serve static files from the 'assets/images' folder
-app.use('/assets', express.static(path.join(__dirname, 'assets')));
+app.post("/chat", (req, res) => {
+    const userMessage = req.body.message.toLowerCase();
+    
+    let botResponse = "I don't understand.";
+    if (userMessage.includes("hello")) {
+        botResponse = "Hello! How can I help you?";
+    } else if (userMessage.includes("help")) {
+        botResponse = "Sure! What do you need help with?";
+    }
 
-// Serve index.html from the 'public' folder
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Serve index.html on root route
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.json({ response: botResponse });
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
