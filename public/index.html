@@ -62,21 +62,21 @@
         /* Return to Top Button */
 .return-top-btn {
     position: fixed;
-    bottom: 10px; /* Adjusted to prevent overlap with chatbot */
-    right: 100px;
-    background-color: #ccaddf;
+    bottom: 35px; /* Adjusted to prevent overlap with chatbot */
+    right: 255px;
+    background-color:#3baadd;
     color: white;
-    padding: 10px 15px;
+    padding: 8px 16px;
     border-radius: 50px;
     border: none;
     cursor: pointer;
-    font-size: 16px;
-    z-index: 1100; /* Ensures it's above chatbot */
+    font-size: 20px;
+    z-index: 1100; /*Ensures it's above chatbot */
     display: none;
 }
 
 .return-top-btn:hover {
-    background-color: #5a0493;
+    background-color:  #5a0493;
 }
 
 
@@ -96,13 +96,13 @@
 }
 
 .theme-toggle-btn:hover {
-    background-color: #5a0493;
+    background-color: #3baadd;
 }
 
 /* Chatbot Button */
 .chat-btn {
     position: fixed;
-    bottom: 20px;
+    bottom: 25px;
     right: 20px;
     background-color: #7706b8;
     color: white;
@@ -111,182 +111,272 @@
     border: none;
     cursor: pointer;
     font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
-/* Online Status Indicator */
+.chat-btn:hover {
+    background-color: #3baadd;
+}
+
+/* Online Status on Chat Button */
 .online-status {
+    font-size: 10px;
     position: absolute;
     top: 8px;
     right: 8px;
     width: 10px;
     height: 10px;
-    background-color: #28a745; /* Green */
     border-radius: 50%;
-    border: 1px solid #fff;
 }
 
 /* Chat Container */
 .chat-container {
+    display: none;
     position: fixed;
     bottom: 80px;
     right: 5px;
-    background-color: #e6afda;
     width: 250px;
-    height: 450px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    display: none;
+    max-width: 100%;
+    height: 50vh; /* Set height to 70% of the viewport */
+    max-height: 80vh; /* Ensure it doesn't exceed 80% of the viewport */
+    display: flex;
     flex-direction: column;
-    z-index: 1000;
+    background-color: #e1aaf7;
+    border: 1px solid #1d1c1c;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden; /* Prevents unwanted overflow */
 }
-/* Chat Messages Layout */
-.message-wrapper {
+
+.dark-theme .chat-container {
+            background-color: #a394a7;
+            color: #ffffff;
+            transition: background-color 2s, color 2s;
+        } 
+
+/* Chat Window (Scrollable) */
+.chat-window {
+    flex-grow: 1; /* Allows it to expand */
+    padding: 10px;
+    overflow-y: auto;
+    height: calc(100% - 60px); /* Adjusts for input field */
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 60px; /* Ensures messages are not hidden */
+}
+
+/* Chat Header */
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #7706b8;
+    color: white;
+    font-weight: bold;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+/* Online Status in Chat Header */
+.online-status-header {
+    font-size: 14px;
+}
+
+/* Close Button */
+.close-btn {
+    background: rgb(251, 252, 252);
+    border: 5px;
+    color: rgb(196, 11, 11);
+    font-size: 10px;
+    cursor: pointer;
+    border-radius: 50%
+}
+
+.close-btn:hover {
+    background-color: #3baadd;
+}
+
+/* Message Bubbles */
+.message-container {
     display: flex;
     align-items: center;
     margin: 5px 0;
-    max-width: 85%;
 }
 
-.user-message {
-    justify-content: flex-end;
-    flex-direction: row-reverse; /* User messages align right */
-    margin-left: auto;
-}
-
-.bot-message {
-    justify-content: flex-start;
-}
-
-/* Avatar */
 .avatar {
-    width: 35px;
-    height: 35px;
-    font-size: 20px;
-    font-weight: bold;
-    color: white;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 5px;
-}
-
-/* Different Avatar Colors */
-.user-message .avatar {
-    background-color: #007bff; /* Blue for User */
-}
-
-.bot-message .avatar {
-    background-color: #7706b8; /* Purple for Bot */
-}
-
-/* Message Bubble */
-.message-bubble {
-    padding: 10px;
-    border-radius: 10px;
-    max-width: 75%;
-    word-wrap: break-word;
-}
-
-.user-message .message-bubble {
-    background-color: #cce5ff; /* Light blue */
-    color: #004085;
-}
-
-.bot-message .message-bubble {
-    background-color: #e6afda; /* Light pink */
-    color: #7706b8;
-}
-
-/* Typing Indicator */
-.typing-indicator {
-    font-style: nyala;
-    color: #555;
-    margin: 5px 0;
-}
-
-
-/* Chat Header */
-.chat-header {
-    background-color: #7706b8;
+    font-size: 20px;
     color: white;
-    padding: 10px;
-    text-align: center;
-    font-weight: bold;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    margin-right: 10px;
 }
 
-.close-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
+/* User Messages */
+.user-message-container {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
 }
 
-/* Chat Body */
-.chat-body {
-    flex-grow: 1;
-    padding: 10px;
-    overflow-y: auto;
-    background-color: #db98cb;
-}
-
-/* Chat Footer */
-.chat-footer {
-    display: flex;
-    padding: 10px;
-    background-color: #f8d7e5;
-}
-
-/* Chat Input */
-.chat-input {
-    flex-grow: 1;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-/* Send Button */
-.chat-send-btn {
-    background-color: #7706b8;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    margin-left: 5px;
-    border-radius: 5px;
-}
-
-/* Message Styles */
-.message {
-    padding: 8px 12px;
-    border-radius: 10px;
-    margin-bottom: 5px;
-    max-width: 80%;
+.user-avatar {
+    background-color: #007bff;
 }
 
 .user-message {
-    background-color: #a12adb;
-    color: white;
-    align-self: flex-end;
+    background-color: #eee2e9;
+    color: rgb(14, 1, 1);
+    padding: 8px;
+    /* border-radius: 8px; */
+    max-width: 80%;
+    word-wrap: break-word;
+    border-radius: 30px 30px 0px 30px; /* Rounded except bottom-right */
+}
+
+/* Bot Messages */
+.bot-avatar {
+    background-color: #7706b8;
 }
 
 .bot-message {
-    background-color: #ffffff;
-    color: black;
-    align-self: flex-start;
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px;
+    background-color: #e0f7fa;
+    /* border-radius: 8px; */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 0px;
+    border-radius: 30px 30px 30px 0px; /* Rounded except bottom-left */
+}
+
+/* Input Container (Fixed at Bottom) */
+.input-container {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    background-color: #8a649b;
+    border-top: 1px solid #ccc;
+    position: absolute; /* Attach it to the chat container */
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    /* border-radius: 8px; */
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+
+}
+
+.dark-theme .input-container {
+            background-color: #343235;
+            color: #ffffff;
+            transition: background-color 2s, color 2s;
+        } 
+/* User Input Field */
+#user-input {
+    flex-grow: 1; /* Takes up available space */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.dark-theme .user-input {
+            background-color: #a394a7;
+            color: #ffffff;
+            transition: background-color 2s, color 2s;
+        } 
+
+/* Send Button */
+#send-btn {
+    padding: 8px;
+    background-color: #7706b8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px; /* Space between input and button */
+}
+
+#send-btn i {
+    font-size: 20px;
+}
+
+#send-btn:hover {
+    background-color: #3baadd;
+}
+
+/* Typing Indicator Container */
+.typing-indicator-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Typing Indicator Dots */
+.typing-indicator {
+    display: flex;
+    gap: 4px;
+    padding: 8px;
+    background-color: #b8e3f0;
+    border-radius: 8px;
+    max-width: 80%;
+}
+
+.typing-indicator .dot {
+    width: 8px;
+    height: 8px;
+    background-color: #7706b8;
+    border-radius: 50%;
+    animation: typing 1.5s infinite ease-in-out;
+}
+
+.typing-indicator .dot:nth-child(1) {
+    animation-delay: 0s;
+}
+.typing-indicator .dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.typing-indicator .dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing {
+    0% { opacity: 0.3; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(-3px); }
+    100% { opacity: 0.3; transform: translateY(0); }
+}
+
+/* Attach Button */
+#attach-btn {
+    background-color: #7706b8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 8px;
+    margin-right: 10px; /* Space between "+" and input */
+}
+
+#attach-btn:hover {
+    background-color: #3baadd;
 }
 
 
         /* Dark Theme */
+        
         .dark-theme {
             background-color: #675a69;
             color: #c9e1e4;
         }
-
         .dark-theme .navbar {
             background-color: rgb(154, 51, 180);
         }
@@ -320,6 +410,8 @@
             color: #ffffff;
             transition: background-color 2s, color 2s;
         }
+
+
 /* Style for the top bar */
 .top-bar {
     display: flex;
@@ -377,7 +469,7 @@
 }
 
 .search-container button:hover {
-    background-color: darkblue;
+    background-color: #3baadd;
 }
 
 /* Social Media Icons */
@@ -422,6 +514,11 @@ nav {
     font-size: 18px;
     border-radius: 4px;
     z-index: 1000;
+}
+
+.toggle-btn:hover {
+        background-color: #ce6bb8;
+        transform: scale(1.1)
 }
 
 /* Adjust Button Position */
@@ -533,6 +630,198 @@ footer a:hover {
 }
 
 
+/* Contact Section Styling */
+.contact-container {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: url('assets/images/WtS-Banner3.png') no-repeat center center/cover;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    gap: 20px;
+    color: white;
+}
+
+/* Logo Positioning */
+.contact-logo {
+    position: absolute;
+    top: -40px; /* Adjusts the logo position to be above the border */
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgb(154, 51, 180);
+    padding: 10px;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.contact-logo img {
+    width: 60px; /* Adjust the size of the logo */
+    height: auto;
+}
+
+/* Overlay for better readability */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    border-radius: 10px;
+}
+
+/* Contact Information Box */
+.contact-info, .contact-form {
+    position: relative;
+    flex: 1;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: black;
+}
+
+/* Contact Icons */
+.contact-info i {
+    color: #007bff;
+    margin-right: 8px;
+}
+
+/* Social Media Links */
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.social-links a {
+    font-size: 24px;
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+.social-links a:hover {
+    color: #0056b3;
+}
+
+/* Form Styling */
+.form-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.full-width {
+    display: block;
+}
+
+/* Form Inputs */
+.contact-form input, .contact-form textarea {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
+/* Submit Button */
+.contact-form button {
+    width: 30%;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.contact-form button:hover {
+    background: #0056b3;
+}
+
+/* Newsletter Section */
+.newsletter {
+    margin-top: 20px;
+}
+
+.newsletter h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.newsletter-form {
+    display: flex;
+    gap: 10px;
+}
+
+.newsletter-form input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.newsletter-form button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 10px 15px;
+    background: #7eaad8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.newsletter-form button i {
+    font-size: 16px;
+}
+
+.newsletter-form button:hover {
+    background: #0056b3;
+}
+
+
+/* Back to Home Button */
+.back-to-home {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.back-to-home i {
+    font-size: 18px;
+}
+
+.back-to-home:hover {
+    background: #0056b3;
+}
+
+
+.content-box {
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
     </style>
 </head>
 <body>
@@ -552,10 +841,10 @@ footer a:hover {
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">About</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Who we are</a></li>
-                            <li><a class="dropdown-item" href="#">Vision</a></li>
-                            <li><a class="dropdown-item" href="#">Mission</a></li>
-                            <li><a class="dropdown-item" href="#">Developer</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="showContent('whoWeAre')">Who we are</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="showContent('vision')">Vision</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="showContent('mission')">Mission</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="showContent('developer')">Developer</a></li>
                         </ul>
                     </li>
 
@@ -569,9 +858,9 @@ footer a:hover {
                             <li><a class="dropdown-item" href="#">Discover Africa</a></li>
                         </ul>
                     </li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="loadContactContent()">Contact</a></li>
 
-                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://waliin-tech-space.blogspot.com">Blog</a></li>
                 </ul>
             </div>
         </div>
@@ -612,7 +901,7 @@ footer a:hover {
             <img class="slide" src="assets/images/WtS-Banner.png" alt="Slide 1">
             <img class="slide" src="assets/images/WtS-Banner3.png" alt="Slide 2">
             <img class="slide" src="assets/images/Addis Ababa1.jpg" alt="Slide 3">
-            <img class="slide" src="assets/images/addisababaskyline2023.jpg" alt="Slide 2">
+            <img class="slide" src="assets/images/addisababaskyline2023.jpg" alt="Slide 4">
         </div>
         <div class="header-text">
             <h2>Welcome to Waliin-TechSpace! This website features my creations and curated educational content.  Innovate | Educate | Elevate and Keep going forward...</h2>
@@ -631,7 +920,11 @@ footer a:hover {
 
     <!-- Main Content -->
     <main class="main-bar" id="mainContent">
-        Main Content Area
+        <!-- Content Display Section -->
+<div id="aboutContent" class="content-box">
+    <h2>Welcome to Waliin-TechSpace</h2>
+    <p>Select an option from the menu to learn more.</p>
+</div>
     </main>
 
     <!-- Right Sidebar -->
@@ -643,7 +936,7 @@ footer a:hover {
 
 
 <!-- Return to Top Button -->
-<button id="returnTopBtn" class="return-top-btn" onclick="scrollToTop()">🔝</button>
+<button id="returnTopBtn" class="return-top-btn" onclick="scrollToTop()">⬆</button>
 
 <!-- Theme Toggle Button -->
 <button class="theme-toggle-btn" onclick="toggleTheme()">🌙</button>
@@ -651,25 +944,33 @@ footer a:hover {
 
 <!-- Chatbot Button -->
 <button id="chatButton" class="chat-btn" onclick="toggleChat()">
-    💬 <span class="online-status"></span>
+    🤖<span class="online-status">🟢</span>
 </button>
 
-<!-- Chat Window -->
-<div class="chat-container" id="chatContainer">
-    <div class="chat-header">🤖 Waliin-Chat 🟢 
-        <button class="close-btn" onclick="toggleChat()">✖</button>
+<!-- Chat Container -->
+<div class="chat-container" id="chatContainer" style="display: none;">
+    <div class="chat-header">
+        🤖Welcome to Waliin-Chat🙌 
+        🟢 I am here to help you!
+        <button class="close-btn" onclick="toggleChat()">❌</button>
     </div>
-    <div class="chat-body" id="chatBody"></div>
 
-    <div class="chat-footer">
-    <input type="text" class="chat-input" id="userMessage" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
-    <button class="chat-send-btn" onclick="sendMessage()">
-        <i class="fas fa-paper-plane"></i>
-    </button>
+    <!-- Chat window to display messages -->
+    <div id="chat-window" class="chat-window"></div>
+
+    <!-- User input area with file attachment -->
+    <div class="input-container">
+        <!-- Attach File Button -->
+        <button id="attach-btn">+</button>
+        <input type="file" id="file-input" style="display: none;" accept="image/*, .pdf, .doc, .txt">
+        
+        <!-- Text Input -->
+        <input type="text" id="user-input" placeholder="Type your message...">
+        
+        <!-- Send Button -->
+        <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+    </div>
 </div>
-
-</div>
-
 
 
     <footer class="bg-dark text-white pt-4">
@@ -723,9 +1024,116 @@ footer a:hover {
         </div>
     </footer>
     
-
+    
     <!-- Scripts -->
     <script>
+
+function showContent(section) {
+    let content = {
+        whoWeAre: `
+            <h2>Who We Are?</h2>
+            <p>Waliin-TechSpace is a dynamic technology hub dedicated to providing innovative solutions, insightful tech content, and digital advancements.</p>
+        `,
+        vision: `
+            <h2>Vision</h2>
+            <p>To become a leading technology platform that bridges the gap between innovation and practical application, empowering users with knowledge and digital solutions to drive progress.</p>
+        `,
+        mission: `
+            <h2>Mission</h2>
+            <ul>
+                <li>Deliver high-quality, accessible tech resources and insights.</li>
+                <li>Develop user-centric applications that solve real-world problems.</li>
+                <li>Foster a community of tech enthusiasts and professionals for knowledge sharing.</li>
+                <li>Enhance digital transformation through AI, automation, and data-driven solutions.</li>
+            </ul>
+        `,
+        developer: `
+            <h2>Developer</h2>
+            <p><strong>Woluman Urgesa Feyisa</strong> – Founder & Lead Developer of Waliin-TechSpace. A passionate IT professional with expertise in software development, fleet management systems, and AI-driven solutions.</p>
+        `
+    };
+
+    document.getElementById('aboutContent').innerHTML = content[section];
+}
+
+
+function loadContactContent() {
+    document.getElementById("mainContent").innerHTML = `
+        <div class="contact-container">
+            <div class="overlay"></div> <!-- Background overlay -->
+
+            <!-- Back to Home Button -->
+            <button class="back-to-home" onclick="loadHomeContent()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+
+            <!-- Logo (Top Center) -->
+            <div class="contact-logo">
+                <img src="assets/images/WTS-Logo.jpg" alt="Waliin-TechSpace Logo">
+            </div>
+
+            <!-- Contact Information -->
+            <div class="contact-info">
+                <h2>Contact Us</h2>
+                
+                <p><i class="fas fa-map-marker-alt"></i> <strong>Location:</strong> 
+                    <a href="https://www.google.com/maps/place/%E1%8A%83%E1%8B%AD%E1%88%8C+%E1%8C%8B%E1%88%AD%E1%88%98%E1%8A%95%E1%89%B5/@8.9377076,38.7354823,1179m/data=!3m1!1e3!4m6!3m5!1s0x164b817d4823f5a1:0x258c702776808447!8m2!3d8.9377076!4d38.7354823!16s%2Fg%2F12llth0xx?hl=am&entry=ttu" target="_blank">
+                        View on Google Maps</a>
+                </p>
+                <p><i class="fas fa-envelope"></i> <strong>Email:</strong> 
+                    <a href="mailto:info@waliintechs.com">info@waliintechs.com</a>
+                </p>
+                <p><i class="fas fa-phone"></i> <strong>Phone:</strong> 
+                    <a href="tel:+251913740601">+251913740601</a>
+                </p>
+
+                <!-- Follow Us Section -->
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="https://www.youtube.com/@wolu-man" target="_blank"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.linkedin.com/in/woluman-urgesa-feyisa-94255a352/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://independent.academia.edu/WolumaanUrgesa" target="_blank"><i class="fas fa-graduation-cap"></i></a>
+                    <a href="https://web.facebook.com/Wolumaan.Urgesa" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="https://t.me/waliin_techspace" target="_blank"><i class="fab fa-telegram"></i></a>
+                </div>
+
+                <!-- Newsletter Subscription -->
+                <div class="newsletter">
+                    <h2>Subscribe to Our Newsletter</h2>
+                    <form class="newsletter-form">
+                        <input type="email" id="newsletter-email" placeholder="Write your e-mail..." required>
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="contact-form">
+                <h3>Get in Touch</h3>
+                <form>
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" placeholder="Write your name..."required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" placeholder="Write your e-mail..." required>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="Message">Feedback:</label>
+                        <textarea id="message" name="message" rows="4" placeholder="Write your feedback..."required></textarea>
+                    </div>
+
+                    <button type="submit"><i class="fas fa-paper-plane"></i> Submit</button>
+                </form>
+            </div>
+        </div>
+    `;
+}
+
+
 // Show/Hide Return to Top Button
 window.onscroll = function() {
     let topBtn = document.getElementById("returnTopBtn");
@@ -746,102 +1154,174 @@ function scrollToTop() {
             document.body.classList.toggle("dark-theme");
         }
 
-// Chatbot Toggle
+// Function to toggle chat container visibility
 function toggleChat() {
-    let chatBox = document.getElementById("chatContainer");
-    chatBox.style.display = chatBox.style.display === "none" || chatBox.style.display === "" ? "flex" : "none";
-}
-
-// Function to add message to chat body
-function addMessage(sender, text, isBot) {
-    let chatBody = document.getElementById("chatBody");
-
-    // Create main message wrapper
-    let messageWrapper = document.createElement("div");
-    messageWrapper.classList.add("message-wrapper");
-    if (isBot) {
-        messageWrapper.classList.add("bot-message");
+    const chatContainer = document.getElementById('chatContainer');
+    // Toggle visibility
+    if (chatContainer.style.display === 'none' || chatContainer.style.display === '') {
+        chatContainer.style.display = 'block'; // Show chat container
     } else {
-        messageWrapper.classList.add("user-message");
-    }
-
-    // Create user/bot avatar
-    let avatar = document.createElement("div");
-    avatar.classList.add("avatar");
-    avatar.textContent = isBot ? "🤖" : "👤";
-
-    // Create message bubble
-    let messageBubble = document.createElement("div");
-    messageBubble.classList.add("message-bubble");
-    messageBubble.textContent = text;
-
-    // Append elements
-    messageWrapper.appendChild(avatar);
-    messageWrapper.appendChild(messageBubble);
-    chatBody.appendChild(messageWrapper);
-
-    // Scroll to bottom
-    chatBody.scrollTop = chatBody.scrollHeight;
-}
-
-// Typing Indicator
-function showTypingIndicator() {
-    let chatBody = document.getElementById("chatBody");
-    let typingIndicator = document.createElement("div");
-    typingIndicator.classList.add("typing-indicator");
-    typingIndicator.textContent = "Waliin🤖 is typing...";
-    typingIndicator.id = "typingIndicator";
-    chatBody.appendChild(typingIndicator);
-    chatBody.scrollTop = chatBody.scrollHeight;
-}
-
-// Remove Typing Indicator
-function removeTypingIndicator() {
-    let typingIndicator = document.getElementById("typingIndicator");
-    if (typingIndicator) {
-        typingIndicator.remove();
+        chatContainer.style.display = 'none'; // Hide chat container
     }
 }
 
-// Function to send user message
-function sendMessage() {
-    let userMessageInput = document.getElementById("userMessage");
-    let userMessage = userMessageInput.value.trim();
-    
-    if (userMessage) {
-        addMessage("You", userMessage, false);
-        userMessageInput.value = "";
+// Function to fetch Gemini AI response
+async function getGeminiReply(userMessage) {
+    const apiKey = "AIzaSyBGW3RoHvFXX4RlwUeRM73LZlg3vFiP9j8"; // Replace with your actual API key
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
-        // Show typing indicator for bot
-        showTypingIndicator();
+    try {
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                contents: [
+                    {
+                        parts: [{ text: userMessage }]
+                    }
+                ]
+            })
+        });
 
-        // Simulate bot response delay
+        if (!response.ok) {
+            throw new Error("API request failed.");
+        }
+
+        const data = await response.json();
+        
+        // Check if there is a valid response
+        if (data && data.candidates && data.candidates.length > 0) {
+            return data.candidates[0].content.parts[0].text; // Extract AI response
+        } else {
+            return "I'm not sure about that. Can you rephrase?";
+        }
+
+    } catch (error) {
+        console.error("Gemini API Error:", error);
+        return "Sorry, there was an error processing your request. Please try again later.";
+    }
+}
+
+// Function to send message
+async function sendMessage() {
+    let userInput = document.getElementById('user-input').value.trim();
+    if (!userInput) return;
+
+    let chatWindow = document.getElementById('chat-window');
+
+    // Add user's message
+    chatWindow.innerHTML += `
+        <div class="message-container user-message-container">
+            <div class="avatar user-avatar">👤</div>
+            <div class="user-message">${userInput}</div>
+        </div>`;
+
+    document.getElementById('user-input').value = '';
+
+    // Show Typing Indicator
+    let typingIndicator = document.createElement('div');
+    typingIndicator.classList.add('message-container', 'typing-indicator-container');
+    typingIndicator.innerHTML = `
+        <div class="avatar bot-avatar">🤖</div>
+        <div class="bot-message typing-indicator">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>`;
+    chatWindow.appendChild(typingIndicator);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+
+    // Get chatbot response
+    let chatbotResponse = await getGeminiReply(userInput);
+
+    // Convert Markdown to HTML
+    let formattedResponse = parseMarkdown(chatbotResponse);
+
+    // Remove Typing Indicator
+    chatWindow.removeChild(typingIndicator);
+
+    // Add Bot's response (using innerHTML to support formatting)
+    chatWindow.innerHTML += `
+        <div class="message-container">
+            <div class="avatar bot-avatar">🤖</div>
+            <div class="bot-message">${formattedResponse}</div>
+        </div>`;
+
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+}
+
+// Function to convert Markdown to HTML
+function parseMarkdown(text) {
+    return text
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold
+        .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italics
+        .replace(/_(.*?)_/g, '<u>$1</u>'); // Underline
+}
+
+// Event listeners
+document.getElementById('send-btn').addEventListener('click', sendMessage);
+document.getElementById('user-input').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') sendMessage();
+});
+
+
+// Attach file button event
+document.getElementById('attach-btn').addEventListener('click', function () {
+    document.getElementById('file-input').click();
+});
+
+// Handle file selection
+document.getElementById('file-input').addEventListener('change', function (event) {
+    let file = event.target.files[0];
+    if (!file) return;
+
+    let chatWindow = document.getElementById('chat-window');
+    let reader = new FileReader();
+
+    reader.onload = function (e) {
+        let fileURL = e.target.result;
+
+        let fileMessage;
+        if (file.type.startsWith('image/')) {
+            // Display the image
+            fileMessage = `<div class="message-container user-message-container">
+                <div class="avatar user-avatar">👤</div>
+                <div class="user-message">
+                    <img src="${fileURL}" alt="Uploaded Image" style="max-width: 150px; border-radius: 8px;">
+                </div>
+            </div>`;
+        } else {
+            // Display as a downloadable link
+            fileMessage = `<div class="message-container user-message-container">
+                <div class="avatar user-avatar">👤</div>
+                <div class="user-message">
+                    📎 <a href="${fileURL}" target="_blank">${file.name}</a>
+                </div>
+            </div>`;
+        }
+
+        chatWindow.innerHTML += fileMessage;
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+
+        // Simulate bot response after file upload
         setTimeout(() => {
-            removeTypingIndicator();
-            let botReply = getBotReply(userMessage);
-            addMessage("Waliin🤖", botReply, true);
-        }, 1500);
-    }
-}
+            chatWindow.innerHTML += `
+                <div class="message-container">
+                    <div class="avatar bot-avatar">🤖</div>
+                    <div class="bot-message">
+                        I received your file${file.type.startsWith('image/') ? " 🖼️! But I can't analyze images yet." : " 📎!"}
+                    </div>
+                </div>`;
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }, 1000);
+    };
 
-// Function for bot replies
-function getBotReply(userMessage) {
-    let responses = [
-        "I'm not sure about that. Can you rephrase?",
-        "Interesting... tell me more!",
-        "That sounds great!",
-        "Let me think about it...",
-        "I'm here to help!"
-    ];
-    return responses[Math.floor(Math.random() * responses.length)];
-}
+    reader.readAsDataURL(file);
+    event.target.value = ''; // Reset file input
+});
 
-// Send message when pressing Enter
-function handleKeyPress(event) {
-    if (event.key === "Enter") {
-        sendMessage();
-    }
-}
 
         document.getElementById("searchButton").addEventListener("click", function() {
     let searchTerm = document.getElementById("searchInput").value.toLowerCase();
@@ -921,6 +1401,7 @@ let currentIndex = 0;
     }
 
     setInterval(showSlides, 4000); // Change slide every 2 seconds
+    
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
