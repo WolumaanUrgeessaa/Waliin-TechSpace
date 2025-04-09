@@ -59,6 +59,82 @@
             z-index: 1030;
         }
 
+/* Sidebar Toggle Button */
+.toggle-btn {
+    position: absolute;
+    top: 10px;
+    background-color: #9a09aa;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 4px;
+    z-index: 1000;
+}
+
+.toggle-btn:hover {
+        background-color: #8141d4;
+}
+
+/* Adjust Button Position */
+.left-bar .toggle-btn {
+    left: 1px;
+}
+
+.right-bar .toggle-btn {
+    right: 1px;
+}
+
+/* Default Sidebar Width */
+.left-bar, .right-bar {
+    width: 250px; /* Adjust as needed */
+    transition: width 0.3s ease;
+    position: relative;
+}
+
+/* Shrink Sidebars */
+.shrink {
+    width: 50px !important;
+    overflow: hidden;
+}
+
+/* Adjust Main Content When Sidebars Shrink */
+.main-bar {
+    flex-grow: 1;
+    transition: margin 0.3s ease;
+}
+.main-bar {
+    transition: margin 0.3s ease, width 0.3s ease;
+    width: calc(100% - 500px); /* Adjust based on initial sidebar width */
+}
+.main-bar {
+    transition: width 0.3s ease;
+    width: calc(100% - 500px); /* 250px for each sidebar initially */
+}
+
+/* Ensure no gaps when sidebars shrink */
+.left-bar.shrink + .main-bar,
+.right-bar.shrink + .main-bar {
+    width: calc(100% - 250px);
+}
+
+/* If both are shrunk, main bar should take full width */
+.left-bar.shrink + .right-bar.shrink + .main-bar {
+    width: 100%;
+}
+header {
+    margin-top: 120px; /* Adjust based on your navbar height */
+}
+
+/* Ensure the header covers full width */
+.header-container {
+    position: relative;
+    width: 100%;
+    height: 450px; /* Adjust height as needed */
+    overflow: hidden;
+}
+
         /* Return to Top Button */
 .return-top-btn {
     position: fixed;
@@ -100,24 +176,63 @@
 }
 
 /* Chatbot Button */
-.chat-btn {
-    position: fixed;
-    bottom: 25px;
-    right: 20px;
-    background-color: #7706b8;
-    color: white;
-    padding: 12px 16px;
-    border-radius: 50px;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
+/* Move fixed positioning to the wrapper */
+.chat-btn-wrapper {
+  position: fixed;
+  bottom: 25px;
+  right: 20px;
+  z-index: 1000;
+  width: fit-content;
+  height: fit-content;
 }
 
-.chat-btn:hover {
-    background-color: #3baadd;
+/* Remove fixed position from button */
+.chat-btn {
+  background-color: #e5e0e9;
+  color: white;
+  padding: 17px 17px;
+  border-radius: 100px;
+  border: none;
+  cursor: pointer;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Circle wave effect */
+.chat-btn-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80px;
+  height: 80px;
+  background-color: rgba(119, 6, 184, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulse-wave 2s infinite;
+  z-index: -1;
+}
+
+@keyframes pulse-wave {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.6;
+  }
+  70% {
+    transform: translate(-50%, -50%) scale(1.8);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.8);
+    opacity: 0;
+  }
+}
+
+
+.dark-theme .chat-btn-wrapper::before {
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 /* Online Status on Chat Button */
@@ -135,7 +250,7 @@
 .chat-container {
     display: none;
     position: fixed;
-    bottom: 80px;
+    bottom: 100px;
     right: 5px;
     width: 250px;
     max-width: 100%;
@@ -500,83 +615,6 @@
 
 nav {
     margin-top: 60px; /* Push the navbar down so it doesn't overlap */
-}
-
-/* Sidebar Toggle Button */
-.toggle-btn {
-    position: absolute;
-    top: 10px;
-    background-color: #9a09aa;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    cursor: pointer;
-    font-size: 18px;
-    border-radius: 4px;
-    z-index: 1000;
-}
-
-.toggle-btn:hover {
-        background-color: #ce6bb8;
-        transform: scale(1.1)
-}
-
-/* Adjust Button Position */
-.left-bar .toggle-btn {
-    left: 1px;
-}
-
-.right-bar .toggle-btn {
-    right: 1px;
-}
-
-/* Default Sidebar Width */
-.left-bar, .right-bar {
-    width: 250px; /* Adjust as needed */
-    transition: width 0.3s ease;
-    position: relative;
-}
-
-/* Shrink Sidebars */
-.shrink {
-    width: 50px !important;
-    overflow: hidden;
-}
-
-/* Adjust Main Content When Sidebars Shrink */
-.main-bar {
-    flex-grow: 1;
-    transition: margin 0.3s ease;
-}
-.main-bar {
-    transition: margin 0.3s ease, width 0.3s ease;
-    width: calc(100% - 500px); /* Adjust based on initial sidebar width */
-}
-.main-bar {
-    transition: width 0.3s ease;
-    width: calc(100% - 500px); /* 250px for each sidebar initially */
-}
-
-/* Ensure no gaps when sidebars shrink */
-.left-bar.shrink + .main-bar,
-.right-bar.shrink + .main-bar {
-    width: calc(100% - 250px);
-}
-
-/* If both are shrunk, main bar should take full width */
-.left-bar.shrink + .right-bar.shrink + .main-bar {
-    width: 100%;
-}
-header {
-    margin-top: 120px; /* Adjust based on your navbar height */
-}
-
-/* Ensure the header covers full width */
-.header-container {
-    position: relative;
-    width: 100%;
-    height: 450px; /* Adjust height as needed */
-    overflow: hidden;
 }
 
 /* Slideshow container */
@@ -956,10 +994,17 @@ footer a:hover {
 <button class="theme-toggle-btn" onclick="toggleTheme()">🌙</button>
 
 
-<!-- Chatbot Button -->
-<button id="chatButton" class="chat-btn" onclick="toggleChat()">
-    🤖<span class="online-status">🟢</span>
-</button>
+<!-- Chatbot Button with Circle Wave -->
+<div class="chat-btn-wrapper">
+    <button id="chatButton" class="chat-btn" onclick="toggleChat()" 
+            style="background-color: #7706b8; border: none; padding: 10px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+      <img src="assets/images/chatbot.png" alt="Chatbot" width="50" height="50" 
+           style="vertical-align: middle; background-color: #7706b8; border-radius: 50%;">
+      <span class="online-status" style="margin-left: 5px;">🟢</span>
+    </button>
+  </div>
+  
+
 
 <!-- Chat Container -->
 <div class="chat-container" id="chatContainer" style="display: none;">
