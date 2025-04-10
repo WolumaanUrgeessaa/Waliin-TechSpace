@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Waliin-TechSpace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Nyala', sans-serif;
+            background-color: #ccf5f5;
+            color: #000000;
+            transition: background-color 2s, color 2s;
+        }
+
+        .navbar {
+            background-color: rgb(154, 51, 180);
+        }
+
+        .navbar {
+             margin-top: 40px; /* Moves the navbar closer to the top bar */
+        }
+
+        .navbar .nav-link {
+            color: white;
+        }
+
+        .navbar .nav-link:hover {
+            color: rgb(253, 5, 5);
+            transform: scale(1.2);
+        }
+        .navbar-nav {
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .left-bar, .right-bar {
+            background-color: #7dd6f1;
+            width: 15%;
+            height: 100vh;
+            padding: 30px;
+        }
+
+        .main-bar {
+            background-color: #ecf5f4;
+            width: 70%;
+            padding: 30px;
+        }
+
+        .fixed-top {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1030;
+        }
+
+/* Sidebar Toggle Button */
+.toggle-btn {
+    position: absolute;
+    top: 10px;
+    background-color: #9a09aa;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 4px;
+    z-index: 1000;
+}
+
+.toggle-btn:hover {
+        background-color: #8141d4;
+}
+
+/* Adjust Button Position */
+.left-bar .toggle-btn {
+    left: 1px;
+}
+
+.right-bar .toggle-btn {
+    right: 1px;
+}
+
+/* Default Sidebar Width */
+.left-bar, .right-bar {
+    width: 250px; /* Adjust as needed */
+    transition: width 0.3s ease;
+    position: relative;
+}
+
+/* Shrink Sidebars */
+.shrink {
+    width: 50px !important;
+    overflow: hidden;
+}
+
+/* Adjust Main Content When Sidebars Shrink */
+.main-bar {
+    flex-grow: 1;
+    transition: margin 0.3s ease;
+}
+.main-bar {
+    transition: margin 0.3s ease, width 0.3s ease;
+    width: calc(100% - 500px); /* Adjust based on initial sidebar width */
+}
+.main-bar {
+    transition: width 0.3s ease;
+    width: calc(100% - 500px); /* 250px for each sidebar initially */
+}
+
+/* Ensure no gaps when sidebars shrink */
+.left-bar.shrink + .main-bar,
+.right-bar.shrink + .main-bar {
+    width: calc(100% - 250px);
+}
+
+/* If both are shrunk, main bar should take full width */
+.left-bar.shrink + .right-bar.shrink + .main-bar {
+    width: 100%;
+}
+header {
+    margin-top: 120px; /* Adjust based on your navbar height */
+}
+
+/* Ensure the header covers full width */
+.header-container {
+    position: relative;
+    width: 100%;
+    height: 450px; /* Adjust height as needed */
+    overflow: hidden;
+}
+
+        /* Return to Top Button */
+.return-top-btn {
+    position: fixed;
+    bottom: 35px; /* Adjusted to prevent overlap with chatbot */
+    right: 255px;
+    background-color:#3baadd;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    z-index: 1100; /*Ensures it's above chatbot */
+    display: none;
+}
+
+.return-top-btn:hover {
+    background-color:  #5a0493;
+}
+
+
+/* Theme Toggle Button */
+.theme-toggle-btn {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    background-color: #7706b8;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    font-size: 10px;
+    z-index: 1100; /* Ensures it's above chatbot */
+}
+
+.theme-toggle-btn:hover {
+    background-color: #3baadd;
+}
+
+/* Chatbot Button */
+/* Move fixed positioning to the wrapper */
+.chat-btn-wrapper {
+  position: fixed;
+  bottom: 25px;
+  right: 20px;
+  z-index: 1000;
+  width: fit-content;
+  height: fit-content;
+}
+
+/* Remove fixed position from button */
+.chat-btn {
+  background-color: #e5e0e9;
+  color: white;
+  padding: 17px 17px;
+  border-radius: 100px;
+  border: none;
+  cursor: pointer;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Circle wave effect */
+.chat-btn-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80px;
+  height: 80px;
+  background-color: rgba(119, 6, 184, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulse-wave 2s infinite;
+  z-index: -1;
+}
+
+@keyframes pulse-wave {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.6;
+  }
+  70% {
+    transform: translate(-50%, -50%) scale(1.8);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.8);
+    opacity: 0;
+  }
+}
+
+
+.dark-theme .chat-btn-wrapper::before {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Online Status on Chat Button */
+.online-status {
+    font-size: 10px;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+/* Chat Container */
+.chat-container {
+    display: none;
+    position: fixed;
+    bottom: 100px;
+    right: 5px;
+    width: 250px;
+    max-width: 100%;
+    height: 50vh; /* Set height to 70% of the viewport */
+    max-height: 80vh; /* Ensure it doesn't exceed 80% of the viewport */
+    display: flex;
+    flex-direction: column;
+    background-color: #e1aaf7;
+    border: 1px solid #1d1c1c;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden; /* Prevents unwanted overflow */
+}
+
+.dark-theme .chat-container {
+            background-color: #a394a7;
+            color: #ffffff;
+            transition: background-color 2s, color 2s;
+        } 
+
+/* Chat Window (Scrollable) */
+.chat-window {
+    flex-grow: 1; /* Allows it to expand */
+    padding: 10px;
+    overflow-y: auto;
+    height: calc(100% - 60px); /* Adjusts for input field */
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 60px; /* Ensures messages are not hidden */
+}
+
+/* Chat Header */
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #7706b8;
+    color: white;
+    font-weight: bold;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+/* Online Status in Chat Header */
+.online-status-header {
+    font-size: 14px;
+}
+
+/* Close Button */
+.close-btn {
+    background: rgb(251, 252, 252);
+    border: 5px;
+    color: rgb(196, 11, 11);
+    font-size: 10px;
+    cursor: pointer;
+    border-radius: 50%
+}
+
+.close-btn:hover {
+    background-color: #3baadd;
+}
+
+/* Message Bubbles */
+.message-container {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+}
+
+.avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: white;
+    margin-right: 10px;
+}
+
+/* User Messages */
+.user-message-container {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.user-avatar {
+    background-color: #007bff;
+}
+
+.user-message {
+    background-color: #eee2e9;
+    color: rgb(14, 1, 1);
+    padding: 8px;
+    /* border-radius: 8px; */
+    max-width: 80%;
+    word-wrap: break-word;
+    border-radius: 30px 30px 0px 30px; /* Rounded except bottom-right */
+}
+
+/* Bot Messages */
+.bot-avatar {
+    background-color: #7706b8;
+}
+
+.bot-message {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px;
+    background-color: #e0f7fa;
+    /* border-radius: 8px; */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 0px;
+    border-radius: 30px 30px 30px 0px; /* Rounded except bottom-left */
+}
+
+/* Input Container (Fixed at Bottom) */
+.input-container {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    background-color: #8a649b;
+    border-top: 1px solid #ccc;
+    position: absolute; /* Attach it to the chat container */
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    /* border-radius: 8px; */
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+
+}
+
+.dark-theme .input-container {
+            background-color: #343235;
+            color: #ffffff;
+            transition: background-color 2s, color 2s;
+        } 
+/* User Input Field */
+#user-input {
+    flex-grow: 1; /* Takes up available space */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.dark-theme .user-input {
+            background-color: #a394a7;
+            color: #ffffff;
+            transition: background-color 2s, color 2s;
+        } 
+
+/* Send Button */
+#send-btn {
+    padding: 8px;
+    background-color: #7706b8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px; /* Space between input and button */
+}
+
+#send-btn i {
+    font-size: 20px;
+}
+
+#send-btn:hover {
+    background-color: #3baadd;
+}
+
+/* Typing Indicator Container */
+.typing-indicator-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Typing Indicator Dots */
+.typing-indicator {
+    display: flex;
+    gap: 4px;
+    padding: 8px;
+    background-color: #b8e3f0;
+    border-radius: 8px;
+    max-width: 80%;
+}
+
+.typing-indicator .dot {
+    width: 8px;
+    height: 8px;
+    background-color: #7706b8;
+    border-radius: 50%;
+    animation: typing 1.5s infinite ease-in-out;
+}
+
+.typing-indicator .dot:nth-child(1) {
+    animation-delay: 0s;
+}
+.typing-indicator .dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.typing-indicator .dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing {
+    0% { opacity: 0.3; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(-3px); }
+    100% { opacity: 0.3; transform: translateY(0); }
+}
+
+/* Attach Button */
+#attach-btn {
+    background-color: #7706b8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 8px;
+    margin-right: 10px; /* Space between "+" and input */
+}
+
+#attach-btn:hover {
+    background-color: #3baadd;
+}
+
+
+        /* Dark Theme */
+        
+        .dark-theme {
+            background-color: #675a69;
+            color: #c9e1e4;
+        }
+        .dark-theme .navbar {
+            background-color: rgb(154, 51, 180);
+        }
+        
+        .dark-theme .main-bar {
+            background-color: rgb(108, 113, 116);
+            transition: background-color 2s, color 2s;
+        }
+
+        .dark-theme .left-bar, .dark-theme .right-bar {
+            background-color: rgb(103, 123, 131);
+            transition: background-color 2s, color 2s;
+        }
+        .dark-theme .chat-body {
+            background-color: #a394a7;
+            color: #ffffff;
+            transition: background-color 2s, color 2s;
+        } 
+        .dark-theme .top-bar{
+            background-color: #6e6870;
+            color: #ffffff;
+            transition: background-color 2s, color 2s;
+        }
+        .dark-theme .search-container{
+            background-color: #373538;
+            color: #ffffff;
+            transition: background-color 2s, color 2s;
+        }
+.dark-theme .search-container{
+            background-color: #373538;
+            color: #ffffff;
+            transition: background-color 2s, color 2s;
+        }
+
+
+/* Style for the top bar */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #c5b6cc; /* Light gray background */
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd; /* Adds a separator */
+    position: fixed; /* Keeps it at the top */
+    top: 0;
+    left: 0;
+    height: 40px;
+    width: 100%;
+    z-index: 1000; /* Ensures it stays above other content */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.top-bar {
+    animation: fadeIn 1s ease-out;
+}
+
+
+/* Style for search container */
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-container input {
+    padding: 2px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+}
+
+.search-container button {
+    padding: 2px 10px;
+    margin-left: 2px;
+    background-color: blue;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.search-container button:hover {
+    background-color: #3baadd;
+}
+
+/* Social Media Icons */
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+.social-icons {
+  margin-right: 20px;  
+}
+.social-icon {
+    font-size: 20px;
+    color: #333;
+    transition: transform 0.2s ease-in-out;
+    text-decoration: none;
+}
+
+.social-icon:hover {
+    transform: scale(2);
+}
+
+/* Individual Colors */
+.social-icon.facebook { color: #1877f2; } /* Facebook Blue */
+.social-icon.linkedin { color: #0077b5; } /* LinkedIn Blue */
+.social-icon.blog { color: #e98a30; } /* Blog (Orange) */
+.social-icon.academia { color: #4c4c4c; } /* Academia (Dark Gray) */
+.social-icon.telegram { color: #0088cc; } /* Telegram Blue */
+
+nav {
+    margin-top: 60px; /* Push the navbar down so it doesn't overlap */
+}
+
+/* Slideshow container */
+.slideshow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+/* Slideshow Images */
+.slide {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+/* Show the first image initially */
+.slide:first-child {
+    opacity: 1;
+}
+
+/* Header text styling */
+.header-text {
+    position: absolute;
+    width: 100%;
+    bottom: 10px;
+    text-align: center;
+    background: none;
+    color: white;
+    padding: 10px;
+}
+
+footer {
+    font-family: 'Nyala', sans-serif;
+    background: #afb8d1;
+}
+
+footer h5 {
+    color: #f8d210;
+}
+
+footer a {
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #f39c12 !important;
+}
+
+
+/* Contact Section Styling */
+.contact-container {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: url('assets/images/WtS-Banner3.png') no-repeat center center/cover;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    gap: 20px;
+    color: white;
+}
+
+/* Logo Positioning */
+.contact-logo {
+    position: absolute;
+    top: -40px; /* Adjusts the logo position to be above the border */
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgb(154, 51, 180);
+    padding: 10px;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.contact-logo img {
+    width: 60px; /* Adjust the size of the logo */
+    height: auto;
+}
+
+/* Overlay for better readability */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    border-radius: 10px;
+}
+
+/* Contact Information Box */
+.contact-info, .contact-form {
+    position: relative;
+    flex: 1;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: black;
+}
+
+/* Contact Icons */
+.contact-info i {
+    color: #007bff;
+    margin-right: 8px;
+}
+
+/* Social Media Links */
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.social-links a {
+    font-size: 24px;
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+.social-links a:hover {
+    color: #0056b3;
+}
+
+/* Form Styling */
+.form-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.full-width {
+    display: block;
+}
+
+/* Form Inputs */
+.contact-form input, .contact-form textarea {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
+/* Submit Button */
+.contact-form button {
+    width: 30%;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.contact-form button:hover {
+    background: #0056b3;
+}
+
+/* Newsletter Section */
+.newsletter {
+    margin-top: 20px;
+}
+
+.newsletter h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.newsletter-form {
+    display: flex;
+    gap: 10px;
+}
+
+.newsletter-form input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.newsletter-form button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 10px 15px;
+    background: #7eaad8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.newsletter-form button i {
+    font-size: 16px;
+}
+
+.newsletter-form button:hover {
+    background: #0056b3;
+}
+
+
+/* Back to Home Button */
+.back-to-home {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.back-to-home i {
+    font-size: 18px;
+}
+
+.back-to-home:hover {
+    background: #0056b3;
+}
+
+
+.content-box {
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+    .chat-container {
+        width: 95%;
+        height: 85vh;
+    }
+
+    .messages-container {
+        max-height: 70vh;
+    }
+
+    .input-container {
+        height: 50px;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="assets/images/WTS-Logo.jpg" alt="Waliin-Tech" style="height: 50px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">About</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="showContent('whoWeAre')">Who we are</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="showContent('vision')">Vision</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="showContent('mission')">Mission</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="showContent('developer')">Developer</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Services</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Tech & AI</a></li>
+                            <li><a class="dropdown-item" href="#">Finance & Business</a></li>
+                            <li><a class="dropdown-item" href="#">Education & Career</a></li>
+                            <li><a class="dropdown-item" href="#">Lifestyle & Productivity</a></li>
+                            <li><a class="dropdown-item" href="#">Discover Africa</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="loadContactContent()">Contact</a></li>
+
+                    <li class="nav-item"><a class="nav-link" href="https://waliin-tech-space.blogspot.com">Blog</a></li>
+                </ul>
+            </div>
+        </div>
+                <!-- Top Bar (Search & Social Media) -->
+<div class="top-bar">
+    <!-- Search Bar -->
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search..." />
+        <button id="searchButton">🔍</button>
+    </div>
+
+    <!-- Social Media Icons -->
+<div class="social-icons">
+    <a href="https://web.facebook.com/Wolumaan.Urgesa" target="_blank" class="social-icon facebook">
+        <i class="fab fa-facebook"></i>
+    </a>
+    <a href="https://www.linkedin.com/in/woluman-urgesa-feyisa-94255a352/" target="_blank" class="social-icon linkedin">
+        <i class="fab fa-linkedin"></i>
+    </a>
+    <a href="https://waliin-tech-space.blogspot.com/" target="_blank" class="social-icon blog">
+        <i class="fas fa-blog"></i>
+    </a>
+    <a href="https://t.me/waliin_techspace" target="_blank" class="social-icon telegram">
+        <i class="fab fa-telegram"></i>
+    </a>
+    <a href="https://independent.academia.edu/WolumaanUrgesa" target="_blank" class="social-icon academia">
+        <i class="fas fa-graduation-cap"></i>
+    </a>
+    
+</div>
+
+</div>
+    </nav>  
+
+    <!-- Header -->
+    <header class="header-container">
+        <div class="slideshow">
+            <img class="slide" src="assets/images/WtS-Banner.png" alt="Slide 1">
+            <img class="slide" src="assets/images/WtS-Banner3.png" alt="Slide 2">
+            <img class="slide" src="assets/images/Addis Ababa1.jpg" alt="Slide 3">
+            <img class="slide" src="assets/images/addisababaskyline2023.jpg" alt="Slide 4">
+        </div>
+        <div class="header-text">
+            <h2>Welcome to Waliin-TechSpace! This website features my creations and curated educational content.  Innovate | Educate | Elevate and Keep going forward...</h2>
+        </div>
+    </header>
+    
+    
+    
+   <!-- Main Content -->
+<div class="d-flex mt-3">
+    <!-- Left Sidebar -->
+    <aside class="left-bar">
+        <button id="toggleLeftBar" class="toggle-btn">☰</button>
+        Left Sidebar Content
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-bar" id="mainContent">
+        <!-- Content Display Section -->
+<div id="aboutContent" class="content-box">
+    <h2>Welcome to Waliin-TechSpace</h2>
+    <p>Select an option from the menu to learn more.</p>
+</div>
+    </main>
+
+    <!-- Right Sidebar -->
+    <aside class="right-bar">
+        <button id="toggleRightBar" class="toggle-btn">☰</button>
+        Right Sidebar Content
+    </aside>
+</div>
+
+
+<!-- Return to Top Button -->
+<button id="returnTopBtn" class="return-top-btn" onclick="scrollToTop()">⬆</button>
+
+<!-- Theme Toggle Button -->
+<button class="theme-toggle-btn" onclick="toggleTheme()">🌙</button>
+
+
+<!-- Chatbot Button with Circle Wave -->
+<div class="chat-btn-wrapper">
+    <button id="chatButton" class="chat-btn" onclick="toggleChat()" 
+            style="background-color: #7706b8; border: none; padding: 10px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+      <img src="assets/images/chatbot.png" alt="Chatbot" width="50" height="50" 
+           style="vertical-align: middle; background-color: #7706b8; border-radius: 50%;">
+      <span class="online-status" style="margin-left: 5px;">🟢</span>
+    </button>
+  </div>
+  
+
+
+<!-- Chat Container -->
+<div class="chat-container" id="chatContainer" style="display: none;">
+    <div class="chat-header">
+        🤖Welcome to Waliin-Chat🙌 
+        <button class="close-btn" onclick="toggleChat()">❌</button>
+    </div>
+
+    <!-- Chat window to display messages -->
+    <div id="chat-window" class="chat-window"></div>
+
+    <!-- User input area with file attachment -->
+    <div class="input-container">
+        <!-- Attach File Button -->
+        <button id="attach-btn">+</button>
+        <input type="file" id="file-input" style="display: none;" accept="image/*, .pdf, .doc, .txt">
+        
+        <!-- Text Input -->
+        <input type="text" id="user-input" placeholder="Type your message...">
+        
+        <!-- Send Button -->
+        <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+    </div>
+</div>
+
+
+    <footer class="bg-dark text-white pt-4">
+        <div class="container">
+            <div class="row">
+                <!-- Information Section -->
+                <div class="col-md-3">
+                    <h5>Information</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">Home</a></li>
+                        <li><a href="#" class="text-white">Services</a></li>
+                        <li><a href="#" class="text-white">About Us</a></li>
+                    </ul>
+                </div>
+    
+                <!-- Contact Section -->
+                <div class="col-md-3">
+                    <h5>Contact Us</h5>
+                    <p>Address: Addis Ababa, Nifas-Silk-Lafto</p>
+                    <p>Email: <a href="mailto:info@waliintechs.com" class="text-white">info@waliintechs.com</a></p>
+                    <p>Phone: <a href="tel:+251913740601" class="text-white">+251913740601</a></p>
+                </div>
+    
+                <!-- Quick Links Section -->
+                <div class="col-md-3">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">Blog</a></li>
+                        <li><a href="#" class="text-white">FAQ</a></li>
+                        <li><a href="#" class="text-white">Subscribe</a></li>
+                    </ul>
+                </div>
+
+                <!-- Social Media Section -->
+                <div class="col-md-3">
+                    <h5>Follow Us</h5>
+                    <a href="#" class="text-white me-3"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="text-white me-3"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="text-white me-3"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-white"><i class="fab fa-telegram"></i></a>
+                </div>
+    
+            </div>
+    
+            <hr class="bg-white">
+    
+            <!-- Copyright Footer -->
+            <div class="text-center py-2">
+                <p class="mb-0">© 2025 Waliin-TechSpace | All Rights Reserved</p>
+            </div>
+        </div>
+    </footer>
+    
+    
+    <!-- Scripts -->
+    <script>
+
+function showContent(section) {
+    let content = {
+        whoWeAre: `
+            <h2>Who We Are?</h2>
+            <p>Waliin-TechSpace is a dynamic technology hub dedicated to providing innovative solutions, insightful tech content, and digital advancements.</p>
+        `,
+        vision: `
+            <h2>Vision</h2>
+            <p>To become a leading technology platform that bridges the gap between innovation and practical application, empowering users with knowledge and digital solutions to drive progress.</p>
+        `,
+        mission: `
+            <h2>Mission</h2>
+            <ul>
+                <li>Deliver high-quality, accessible tech resources and insights.</li>
+                <li>Develop user-centric applications that solve real-world problems.</li>
+                <li>Foster a community of tech enthusiasts and professionals for knowledge sharing.</li>
+                <li>Enhance digital transformation through AI, automation, and data-driven solutions.</li>
+            </ul>
+        `,
+        developer: `
+            <h2>Developer</h2>
+            <p><strong>Woluman Urgesa Feyisa</strong> – Founder & Lead Developer of Waliin-TechSpace. A passionate IT professional with expertise in software development, fleet management systems, and AI-driven solutions.</p>
+        `
+    };
+
+    document.getElementById('aboutContent').innerHTML = content[section];
+}
+
+
+function loadContactContent() {
+    document.getElementById("mainContent").innerHTML = `
+        <div class="contact-container">
+            <div class="overlay"></div> <!-- Background overlay -->
+
+            <!-- Back to Home Button -->
+            <button class="back-to-home" onclick="loadHomeContent()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+
+            <!-- Logo (Top Center) -->
+            <div class="contact-logo">
+                <img src="assets/images/WTS-Logo.jpg" alt="Waliin-TechSpace Logo">
+            </div>
+
+            <!-- Contact Information -->
+            <div class="contact-info">
+                <h2>Contact Us</h2>
+                
+                <p><i class="fas fa-map-marker-alt"></i> <strong>Location:</strong> 
+                    <a href="https://www.google.com/maps/place/%E1%8A%83%E1%8B%AD%E1%88%8C+%E1%8C%8B%E1%88%AD%E1%88%98%E1%8A%95%E1%89%B5/@8.9377076,38.7354823,1179m/data=!3m1!1e3!4m6!3m5!1s0x164b817d4823f5a1:0x258c702776808447!8m2!3d8.9377076!4d38.7354823!16s%2Fg%2F12llth0xx?hl=am&entry=ttu" target="_blank">
+                        View on Google Maps</a>
+                </p>
+                <p><i class="fas fa-envelope"></i> <strong>Email:</strong> 
+                    <a href="mailto:info@waliintechs.com">info@waliintechs.com</a>
+                </p>
+                <p><i class="fas fa-phone"></i> <strong>Phone:</strong> 
+                    <a href="tel:+251913740601">+251913740601</a>
+                </p>
+
+                <!-- Follow Us Section -->
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="https://www.youtube.com/@wolu-man" target="_blank"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.linkedin.com/in/woluman-urgesa-feyisa-94255a352/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://independent.academia.edu/WolumaanUrgesa" target="_blank"><i class="fas fa-graduation-cap"></i></a>
+                    <a href="https://web.facebook.com/Wolumaan.Urgesa" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="https://t.me/waliin_techspace" target="_blank"><i class="fab fa-telegram"></i></a>
+                </div>
+
+                <!-- Newsletter Subscription -->
+                <div class="newsletter">
+                    <h2>Subscribe to Our Newsletter</h2>
+                    <form class="newsletter-form">
+                        <input type="email" id="newsletter-email" placeholder="Write your e-mail..." required>
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="contact-form">
+                <h3>Get in Touch</h3>
+                <form>
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" placeholder="Write your name..."required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" placeholder="Write your e-mail..." required>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="Message">Feedback:</label>
+                        <textarea id="message" name="message" rows="4" placeholder="Write your feedback..."required></textarea>
+                    </div>
+
+                    <button type="submit"><i class="fas fa-paper-plane"></i> Submit</button>
+                </form>
+            </div>
+        </div>
+    `;
+}
+
+
+// Show/Hide Return to Top Button
+window.onscroll = function() {
+    let topBtn = document.getElementById("returnTopBtn");
+    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        topBtn.style.display = "block";
+    } else {
+        topBtn.style.display = "none";
+    }
+};
+
+// Scroll to Top Function
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+        // Dark Mode Toggle
+        function toggleTheme() {
+            document.body.classList.toggle("dark-theme");
+        }
+
+// Function to toggle chat container visibility
+function toggleChat() {
+    const chatContainer = document.getElementById('chatContainer');
+    // Toggle visibility
+    if (chatContainer.style.display === 'none' || chatContainer.style.display === '') {
+        chatContainer.style.display = 'block'; // Show chat container
+    } else {
+        chatContainer.style.display = 'none'; // Hide chat container
+    }
+}
+
+// Function to fetch Gemini AI response
+async function getGeminiReply(userMessage) {
+    const apiKey = "AIzaSyBGW3RoHvFXX4RlwUeRM73LZlg3vFiP9j8"; // Replace with your actual API key
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+    try {
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                contents: [
+                    {
+                        parts: [{ text: userMessage }]
+                    }
+                ]
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error("API request failed.");
+        }
+
+        const data = await response.json();
+        
+        // Check if there is a valid response
+        if (data && data.candidates && data.candidates.length > 0) {
+            return data.candidates[0].content.parts[0].text; // Extract AI response
+        } else {
+            return "I'm not sure about that. Can you rephrase?";
+        }
+
+    } catch (error) {
+        console.error("Gemini API Error:", error);
+        return "Sorry, there was an error processing your request. Please try again later.";
+    }
+}
+
+// Function to send message
+async function sendMessage() {
+    let userInput = document.getElementById('user-input').value.trim();
+    if (!userInput) return;
+
+    let chatWindow = document.getElementById('chat-window');
+
+    // Add user's message
+    chatWindow.innerHTML += `
+        <div class="message-container user-message-container">
+            <div class="avatar user-avatar">👤</div>
+            <div class="user-message">${userInput}</div>
+        </div>`;
+
+    document.getElementById('user-input').value = '';
+
+    // Show Typing Indicator
+    let typingIndicator = document.createElement('div');
+    typingIndicator.classList.add('message-container', 'typing-indicator-container');
+    typingIndicator.innerHTML = `
+        <div class="avatar bot-avatar">🤖</div>
+        <div class="bot-message typing-indicator">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>`;
+    chatWindow.appendChild(typingIndicator);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+
+    // Get chatbot response
+    let chatbotResponse = await getGeminiReply(userInput);
+
+    // Convert Markdown to HTML
+    let formattedResponse = parseMarkdown(chatbotResponse);
+
+    // Remove Typing Indicator
+    chatWindow.removeChild(typingIndicator);
+
+    // Add Bot's response (using innerHTML to support formatting)
+    chatWindow.innerHTML += `
+        <div class="message-container">
+            <div class="avatar bot-avatar">🤖</div>
+            <div class="bot-message">${formattedResponse}</div>
+        </div>`;
+
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+}
+
+// Function to convert Markdown to HTML
+function parseMarkdown(text) {
+    return text
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold
+        .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italics
+        .replace(/_(.*?)_/g, '<u>$1</u>'); // Underline
+}
+
+// Event listeners
+document.getElementById('send-btn').addEventListener('click', sendMessage);
+document.getElementById('user-input').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') sendMessage();
+});
+
+
+// Attach file button event
+document.getElementById('attach-btn').addEventListener('click', function () {
+    document.getElementById('file-input').click();
+});
+
+// Handle file selection
+document.getElementById('file-input').addEventListener('change', function (event) {
+    let file = event.target.files[0];
+    if (!file) return;
+
+    let chatWindow = document.getElementById('chat-window');
+    let reader = new FileReader();
+
+    reader.onload = function (e) {
+        let fileURL = e.target.result;
+
+        let fileMessage;
+        if (file.type.startsWith('image/')) {
+            // Display the image
+            fileMessage = `<div class="message-container user-message-container">
+                <div class="avatar user-avatar">👤</div>
+                <div class="user-message">
+                    <img src="${fileURL}" alt="Uploaded Image" style="max-width: 150px; border-radius: 8px;">
+                </div>
+            </div>`;
+        } else {
+            // Display as a downloadable link
+            fileMessage = `<div class="message-container user-message-container">
+                <div class="avatar user-avatar">👤</div>
+                <div class="user-message">
+                    📎 <a href="${fileURL}" target="_blank">${file.name}</a>
+                </div>
+            </div>`;
+        }
+
+        chatWindow.innerHTML += fileMessage;
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+
+        // Simulate bot response after file upload
+        setTimeout(() => {
+            chatWindow.innerHTML += `
+                <div class="message-container">
+                    <div class="avatar bot-avatar">🤖</div>
+                    <div class="bot-message">
+                        I received your file${file.type.startsWith('image/') ? " 🖼️! But I can't analyze images yet." : " 📎!"}
+                    </div>
+                </div>`;
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }, 1000);
+    };
+
+    reader.readAsDataURL(file);
+    event.target.value = ''; // Reset file input
+});
+
+
+        document.getElementById("searchButton").addEventListener("click", function() {
+    let searchTerm = document.getElementById("searchInput").value.toLowerCase();
+    let content = document.getElementById("mainContent"); // Your main content container
+
+    if (!searchTerm) {
+        content.innerHTML = "<p>Please enter a search term!</p>";
+        return;
+    }
+
+    // Example content to search from (You can modify this to fetch real content)
+    let availableContent = {
+        "ai": "AI is transforming technology!",
+        "tech": "Technology is evolving rapidly.",
+        "blog": "Visit my blog for great insights: <a href='https://waliin-tech-space.blogspot.com/'>Waliin-TechSpace</a>",
+        "transport": "Fleet management helps optimize vehicle operations."
+    };
+
+    // Check if the term exists
+    if (availableContent[searchTerm]) {
+        content.innerHTML = `<p>${availableContent[searchTerm]}</p>`;
+    } else {
+        content.innerHTML = "<p>❌ Sorry! No result found.</p>";
+    }
+});
+
+    document.getElementById("toggleLeftBar").addEventListener("click", function() {
+    document.querySelector(".left-bar").classList.toggle("shrink");
+    adjustMainContent();
+});
+
+document.getElementById("toggleRightBar").addEventListener("click", function() {
+    document.querySelector(".right-bar").classList.toggle("shrink");
+    adjustMainContent();
+});
+
+function adjustMainContent() {
+    let leftBar = document.querySelector(".left-bar");
+    let rightBar = document.querySelector(".right-bar");
+    let mainContent = document.getElementById("mainContent");
+
+    let leftWidth = leftBar.classList.contains("shrink") ? 0 : 250;
+    let rightWidth = rightBar.classList.contains("shrink") ? 0 : 250;
+
+    // Remove margins & make main content fill the space
+    mainContent.style.marginLeft = "0";
+    mainContent.style.marginRight = "0";
+    mainContent.style.width = `calc(100% - ${leftWidth + rightWidth}px)`;
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector(".top-bar").classList.add("show");
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    let images = document.querySelectorAll(".carousel img");
+    let index = 0;
+
+    function changeImage() {
+        images.forEach(img => img.classList.remove("active"));
+        images[index].classList.add("active");
+        index = (index + 1) % images.length;
+    }
+
+    images[0].classList.add("active"); // Show first image initially
+    setInterval(changeImage, 3000); // Change image every 3 seconds
+});
+
+let currentIndex = 0;
+    const slides = document.querySelectorAll(".slide");
+    const totalSlides = slides.length;
+
+    function showSlides() {
+        slides.forEach(slide => slide.style.opacity = "0"); // Hide all slides
+        slides[currentIndex].style.opacity = "1"; // Show current slide
+        currentIndex = (currentIndex + 1) % totalSlides; // Move to next slide
+    }
+
+    setInterval(showSlides, 4000); // Change slide every 2 seconds
+    
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    
+</body>
+</html>
